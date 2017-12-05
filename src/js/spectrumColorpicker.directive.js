@@ -37,12 +37,6 @@
           return formatted;
         }
 
-        function callOnChange(color) {
-          if (angular.isFunction($scope.onChange)) {
-            $scope.onChange({color: color});
-          }
-        }
-
         function setViewValue(color) {
           var value = $scope.fallbackValue;
 
@@ -53,7 +47,6 @@
           }
 
           $ngModel.$setViewValue(value);
-          callOnChange(value);
         }
 
         var onChange = function(color) {
@@ -87,7 +80,7 @@
                     }
                     // we don't do this for change, because we expose the current
                     // value actively through the model
-                    if (eventHandlerName !== 'change' && angular.isFunction($scope[eventHandlerName])) {
+                    if (angular.isFunction($scope[eventHandlerName])) {
                         return $scope[eventHandlerName]({ color: formatColor(color) });
                     } else {
                         return null;
@@ -113,7 +106,6 @@
 
         $ngModel.$render = function() {
           $input.spectrum('set', $ngModel.$viewValue || '');
-          callOnChange($ngModel.$viewValue);
         };
 
         if (options.color) {
